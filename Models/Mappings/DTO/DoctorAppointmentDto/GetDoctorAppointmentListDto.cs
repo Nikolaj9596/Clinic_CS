@@ -1,6 +1,6 @@
-namespace Clinic.Models.Mappings.DTO.ClientDto;
+namespace Clinic.Models.Mappings.DTO.DoctorAppointmentDto;
 
-public class GetClientListDto
+public class GetDoctorAppointmentListDto
 {
-  public IList<GetClientDto> Clients { get; set; }
+    public IList<GetDoctorAppointmentDto> DoctorAppointments { get; set; }
 }

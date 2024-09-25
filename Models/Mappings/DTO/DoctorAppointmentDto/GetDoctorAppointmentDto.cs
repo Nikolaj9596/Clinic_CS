@@ -1,12 +1,27 @@
-namespace Clinic.Models.Mappings.DTO.ClientDto;
+namespace Clinic.Models.Mappings.DTO.DoctorAppointmentDto;
 
-public class GetClientDto
+public class GetDoctorAppointmentDto
 {
-  public string FirstName { get; set; }
-  public string LastName { get; set; }
-  public string MiddleName { get; set; }
-  public DateTime DateBirthday { get; set; }
-  public string Address { get; set; }
-  public string? Avatar { get; set; }
+    public DateTime EndDataAppointment { get; set; }
+    public DateTime StartDataAppointment { get; set; }
+    public ClientDto Client { get; set; }
+    public DoctorDto Doctor { get; set; }
+    public DateTime Created { get; set; }
+
+    public class ClientDto
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string? Avatar { get; set; }
+    }
+
+    public class DoctorDto
+    {
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string? Avatar { get; set; }
+    }
 
 }
