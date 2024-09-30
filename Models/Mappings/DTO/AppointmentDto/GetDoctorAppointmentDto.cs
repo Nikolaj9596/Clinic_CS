@@ -1,4 +1,4 @@
-namespace Clinic.Models.Mappings.DTO.DoctorAppointmentDto;
+namespace Clinic.Models.Mappings.DTO.AppointmentDto;
 
 public class GetDoctorAppointmentDto
 {

@@ -21,48 +21,49 @@ namespace Clinic.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<ActionResult<GetCityListDTO>> Get()
+        public async Task<ActionResult<GetProfessionListDto>> Get()
         {
-            var entity = await _dbContext.Cityes.ProjectTo<GetCityDto>(_mapper.ConfigurationProvider).ToListAsync();
-            return Ok(new GetCityListDTO { Cityes = entity });
+            var entity = await _dbContext.Professions.ProjectTo<GetProfessionDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return Ok(new GetProfessionListDto { Professions = entity });
 
         }
+
         [HttpGet("{id}")]
-        public async Task<Results<NotFound, Ok<GetCityDto>>> Show(Guid id, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, Ok<GetProfessionDto>>> Show(int id, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Cityes.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+            var entity = await _dbContext.Professions.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();
-            return TypedResults.Ok(_mapper.Map<GetCityDto>(entity));
+            return TypedResults.Ok(_mapper.Map<GetProfessionDto>(entity));
         }
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] CreateCityDto city, CancellationToken cancellationToken)
+        public async Task<ActionResult> Create([FromBody] CreateProfessionDto profession, CancellationToken cancellationToken)
         {
-            var entity = new City
+            var entity = new Profession
             {
-                Name = city.Name
+                Name = profession.Name
             };
-            await _dbContext.Cityes.AddAsync(entity);
+            await _dbContext.Professions.AddAsync(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return StatusCode(201);
         }
         [HttpPut("{id}")]
-        public async Task<Results<NotFound, Ok<GetCityDto>>> Update(Guid id, [FromBody] GetCityDto city, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, Ok<GetProfessionDto>>> Update(int id, [FromBody] GetProfessionDto profession, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Cityes.FirstOrDefaultAsync(c => c.Id == id);
+            var entity = await _dbContext.Professions.FirstOrDefaultAsync(c => c.Id == id);
             if (entity == null)
             {
                 return TypedResults.NotFound();
             }
-            entity.Name = city.Name;
+            entity.Name = profession.Name;
             await _dbContext.SaveChangesAsync(cancellationToken);
-            return TypedResults.Ok(_mapper.Map<GetCityDto>(entity));
+            return TypedResults.Ok(_mapper.Map<GetProfessionDto>(entity));
         }
         [HttpDelete("{id}")]
-        public async Task<Results<NotFound, NoContent>> Delete(Guid id, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, NoContent>> Delete(int id, CancellationToken cancellationToken)
         {
-            var entity = await _dbContext.Cityes.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+            var entity = await _dbContext.Professions.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();
-            _dbContext.Cityes.Remove(entity);
+            _dbContext.Professions.Remove(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
             return TypedResults.NoContent();
         }

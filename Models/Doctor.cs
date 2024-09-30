@@ -18,9 +18,11 @@ namespace Clinic.Models
         public virtual Profession Profession { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Diagnosis> Diagnosis { get; set; }
         public Doctor()
         {
             Appointments = new List<Appointment>();
+            Diagnosis = new List<Diagnosis>();
         }
     }
 

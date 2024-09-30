@@ -19,23 +19,25 @@ public class ClinicDbContext : DbContext
   // special "local" folder for your platform.
   protected override void OnConfiguring(DbContextOptionsBuilder options)
       => options.UseSqlite($"Data Source={DbPath}");
-  public DbSet<City> Cityes { get; set; }
-  public DbSet<Role> Roles { get; set; }
-  public DbSet<Status> Statuses { get; set; }
+  public DbSet<Profession> Professions { get; set; }
+  public DbSet<Client> Clients { get; set; }
+  public DbSet<Doctor> Doctors { get; set; }
+  public DbSet<Disease> Diseases { get; set; }
   public DbSet<User> Users { get; set; }
-  public DbSet<Stock> Stocks { get; set; }
-  public DbSet<Invoice> Invoices { get; set; }
-  public DbSet<Cargo> Cargoes { get; set; }
+  public DbSet<Diagnosis> Diagnosis { get; set; }
+  public DbSet<Appointment> Appointments{ get; set; }
+  public DbSet<CategoryDisease> CategoryDiseases { get; set; }
 
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
-    modelBuilder.Entity<Stock>().HasOne(p => p.City).WithMany(t => t.Stocks).HasForeignKey(t => t.CityId);
-    modelBuilder.Entity<User>().HasOne(p => p.Role).WithMany(t => t.Users).HasForeignKey(t => t.RoleId);
-    modelBuilder.Entity<User>().HasMany(t => t.SendInvoices).WithOne(t => t.Sender).HasForeignKey(t => t.SenderId);
-    modelBuilder.Entity<User>().HasMany(t => t.ReceiveInvoices).WithOne(t => t.Recipient).HasForeignKey(t => t.RecipientId);
-    modelBuilder.Entity<Invoice>().HasOne(t => t.Status).WithMany(t => t.Invoices).HasForeignKey(t => t.StatusId);
-    modelBuilder.Entity<Invoice>().HasOne(t => t.Endpoint).WithMany(t => t.Invoices).HasForeignKey(t => t.EndpointId);
-    modelBuilder.Entity<Invoice>().HasMany(t => t.Cargoes).WithOne(t => t.Invoice).HasForeignKey(t => t.InvoiceId);
+    modelBuilder.Entity<Profession>().HasMany(t => t.Doctors).WithOne(t => t.Profession).HasForeignKey(t => t.ProfessionId);
+    modelBuilder.Entity<Disease>().HasOne(p => p.CategoryDisease).WithMany(t => t.Diseases).HasForeignKey(t => t.CategoryDiseaseId);
+    modelBuilder.Entity<Disease>().HasMany(p => p.Diagnosis).WithMany(t => t.Diseases);
+    modelBuilder.Entity<Diagnosis>().HasOne(p => p.Client).WithMany(t => t.Diagnosis).HasForeignKey(t => t.ClientId);
+    modelBuilder.Entity<Diagnosis>().HasOne(p => p.Doctor).WithMany(t => t.Diagnosis).HasForeignKey(t => t.DoctorId);
+    modelBuilder.Entity<Appointment>().HasOne(p => p.Client).WithMany(t => t.Appointments).HasForeignKey(t => t.ClientId);
+    modelBuilder.Entity<Appointment>().HasOne(p => p.Doctor).WithMany(t => t.Appointments).HasForeignKey(t => t.DoctorId);
+    modelBuilder.Entity<Diagnosis>().HasOne(p => p.Doctor).WithMany(t => t.Diagnosis).HasForeignKey(t => t.DoctorId);
   }
 }

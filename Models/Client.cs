@@ -15,9 +15,11 @@ namespace Clinic.Models
         public DateTime Created { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Diagnosis> Diagnosis { get; set; }
         public Client()
         {
             Appointments = new List<Appointment>();
+            Diagnosis = new List<Diagnosis>();
         }
     }
 }
