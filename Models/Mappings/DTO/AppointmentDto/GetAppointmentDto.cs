@@ -1,6 +1,6 @@
 namespace Clinic.Models.Mappings.DTO.AppointmentDto;
 
-public class GetDoctorAppointmentDto
+public class GetAppointmentDto
 {
     public DateTime EndDataAppointment { get; set; }
     public DateTime StartDataAppointment { get; set; }

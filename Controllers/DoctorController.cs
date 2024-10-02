@@ -45,8 +45,8 @@ namespace Clinic.Controllers
                 MiddleName = doctor.MiddleName,
                 DateBirthday = doctor.DateBirthday,
                 DateStartWork = doctor.DateStartWork,
-                Avatar = doctor.Avatar
-                      ProfessionId = doctor.ProfessionId,
+                Avatar = doctor.Avatar,
+                ProfessionId = doctor.ProfessionId,
             };
             await _dbContext.Doctors.AddAsync(entity);
             await _dbContext.SaveChangesAsync(cancellationToken);
@@ -60,14 +60,14 @@ namespace Clinic.Controllers
             {
                 return TypedResults.NotFound();
             }
-            entity.FirstName = doctor.FirstName
-                        entity.LastName = doctor.LastName
-                        entity.MiddleName = doctor.MiddleName
-                        entity.DateBirthday = doctor.DateBirthday
-                        entity.DateStartWork = doctor.DateStartWork
-                        entity.ProfessionId = doctor.ProfessionId
-                        entity.Avatar = doctor.Avatar
-                        await _dbContext.SaveChangesAsync(cancellationToken);
+            entity.FirstName = doctor.FirstName;
+            entity.LastName = doctor.LastName;
+            entity.MiddleName = doctor.MiddleName;
+            entity.DateBirthday = doctor.DateBirthday;
+            entity.DateStartWork = doctor.DateStartWork;
+            entity.ProfessionId = doctor.ProfessionId;
+            entity.Avatar = doctor.Avatar;
+            await _dbContext.SaveChangesAsync(cancellationToken);
             return TypedResults.Ok(_mapper.Map<GetDoctorDto>(entity));
         }
         [HttpDelete("{id}")]

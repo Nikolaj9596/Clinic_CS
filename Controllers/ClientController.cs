@@ -59,13 +59,13 @@ namespace Clinic.Controllers
             {
                 return TypedResults.NotFound();
             }
-            entity.FirstName = client.FirstName
-                entity.LastName = client.LastName
-                entity.MiddleName = client.MiddleName
-                entity.DateBirthday = client.DateBirthday
-                entity.Address = client.Address
-                entity.Avatar = client.Avatar
-                await _dbContext.SaveChangesAsync(cancellationToken);
+            entity.FirstName = client.FirstName;
+            entity.LastName = client.LastName;
+            entity.MiddleName = client.MiddleName;
+            entity.DateBirthday = client.DateBirthday;
+            entity.Address = client.Address;
+            entity.Avatar = client.Avatar;
+            await _dbContext.SaveChangesAsync(cancellationToken);
             return TypedResults.Ok(_mapper.Map<GetClientDto>(entity));
         }
         [HttpDelete("{id}")]
