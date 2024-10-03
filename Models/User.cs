@@ -14,13 +14,6 @@ namespace Clinic.Models
         public string Password { get; set; }
         public Guid RoleId { get; set; }
         public virtual Role Role { get; set; }
-        public virtual ICollection<Invoice> SendInvoices { get; set; }
-        public virtual ICollection<Invoice> ReceiveInvoices { get; set; }
-        public User()
-        {
-            SendInvoices = new List<Invoice>();
-            ReceiveInvoices = new List<Invoice>();
-        }
 
     }
 }

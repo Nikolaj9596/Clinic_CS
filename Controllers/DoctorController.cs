@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Clinic.Models;
 using AutoMapper;
-using Clinic.Models.Mappings.DTO;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Authorization;
+using Clinic.Models;
+using Clinic.Models.Mappings.DTO.DoctorDto;
 
 namespace Clinic.Controllers
 {
@@ -29,7 +29,7 @@ namespace Clinic.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Results<NotFound, Ok<GetDoctorDto>>> Show(int id, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, Ok<GetDoctorDto>>> Show(Guid id, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Doctors.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();
@@ -53,7 +53,7 @@ namespace Clinic.Controllers
             return StatusCode(201);
         }
         [HttpPut("{id}")]
-        public async Task<Results<NotFound, Ok<GetDoctorDto>>> Update(int id, [FromBody] UpdateDoctorDto doctor, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, Ok<GetDoctorDto>>> Update(Guid id, [FromBody] UpdateDoctorDto doctor, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Doctors.FirstOrDefaultAsync(c => c.Id == id);
             if (entity == null)
@@ -71,7 +71,7 @@ namespace Clinic.Controllers
             return TypedResults.Ok(_mapper.Map<GetDoctorDto>(entity));
         }
         [HttpDelete("{id}")]
-        public async Task<Results<NotFound, NoContent>> Delete(int id, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, NoContent>> Delete(Guid id, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Doctors.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();

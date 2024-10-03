@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Clinic.Models;
+using Clinic.Models.Mappings.DTO.DiagnosisDto;
 
 namespace Clinic.Controllers
 {
@@ -16,23 +17,23 @@ namespace Clinic.Controllers
         private readonly IMapper _mapper;
         public DiagnosisController(ClinicDbContext context, IMapper mapper) => (_context, _mapper) = (context, mapper);
         [HttpGet]
-        public async Task<ActionResult<DiagnosisListDto>> GetAll(CancellationToken cancellationToken)
+        public async Task<ActionResult<GetDiagnosisListDto>> GetAll(CancellationToken cancellationToken)
         {
-            var entity = await _context.Diagnosiss.ProjectTo<DiagnosisDetailsDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
-            return Ok(new DiagnosisListDto { Diagnosiss = entity });
+            var entity = await _context.Diagnosis.ProjectTo<GetDiagnosisDto>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+            return Ok(new GetDiagnosisListDto { Diagnosis = entity });
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType<DiagnosisDetailsDto>(StatusCodes.Status200OK)]
-        public async Task<Results<NotFound, Ok<DiagnosisDetailsDto>>> GetOne(Guid id, CancellationToken cancellationToken)
+        [ProducesResponseType<GetDiagnosisDto>(StatusCodes.Status200OK)]
+        public async Task<Results<NotFound, Ok<GetDiagnosisDto>>> GetOne(Guid id, CancellationToken cancellationToken)
         {
-            var entity = await _context.Diagnosiss.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+            var entity = await _context.Diagnosis.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();
-            return TypedResults.Ok(_mapper.Map<DiagnosisDetailsDto>(entity));
+            return TypedResults.Ok(_mapper.Map<GetDiagnosisDto>(entity));
         }
         [HttpPost]
         [ProducesResponseType<Guid>(StatusCodes.Status201Created)]
-        public async Task<IResult> Create([FromBody] DiagnosisCreateDto diagnosis, CancellationToken cancellationToken)
+        public async Task<IResult> Create([FromBody] CreateDiagnosisDto diagnosis, CancellationToken cancellationToken)
         {
             var entity = new Diagnosis
             {
@@ -42,28 +43,29 @@ namespace Clinic.Controllers
                 DoctorId = diagnosis.DoctorId,
                 Status = diagnosis.Status,
             };
-            await _context.Diagnosiss.AddAsync(entity, cancellationToken);
+            await _context.Diagnosis.AddAsync(entity, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return Results.Created("", entity.Id);
         }
+
         [HttpPut("{id}")]
-        public async Task<Results<NotFound, Ok<DiagnosisDetailsDto>>> Update(Guid id, [FromBody] DiagnosisUpdateDto diagnosis, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, Ok<GetDiagnosisDto>>> Update(Guid id, [FromBody] UpdateDiagnosisDto diagnosis, CancellationToken cancellationToken)
         {
-            var entity = await _context.Diagnosiss.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+            var entity = await _context.Diagnosis.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();
-            entity.EndDataDiagnosis = diagnosis.EndDataDiagnosis;
-            entity.StartDataDiagnosis = diagnosis.StartDataDiagnosis;
+            entity.Name = diagnosis.Name;
+            entity.Description = diagnosis.Description;
             entity.ClientId = diagnosis.ClientId;
             entity.DoctorId = diagnosis.DoctorId;
             await _context.SaveChangesAsync(cancellationToken);
-            return TypedResults.Ok(_mapper.Map<DiagnosisDetailsDto>(entity));
+            return TypedResults.Ok(_mapper.Map<GetDiagnosisDto>(entity));
         }
         [HttpDelete("{id}")]
         public async Task<Results<NotFound, NoContent>> Delete(Guid id, CancellationToken cancellationToken)
         {
-            var entity = await _context.Diagnosiss.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+            var entity = await _context.Diagnosis.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();
-            _context.Diagnosiss.Remove(entity);
+            _context.Diagnosis.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
             return TypedResults.NoContent();
         }

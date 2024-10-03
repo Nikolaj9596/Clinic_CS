@@ -10,7 +10,7 @@ public class GetAppointmentDto
 
     public class ClientDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string? Avatar { get; set; }
@@ -18,7 +18,7 @@ public class GetAppointmentDto
 
     public class DoctorDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string? Avatar { get; set; }

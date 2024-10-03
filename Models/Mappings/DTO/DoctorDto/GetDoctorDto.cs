@@ -9,7 +9,7 @@ public class GetDoctorDto
     public string MiddleName { get; set; }
     public DateTime DateBirthday { get; set; }
     public DateTime DateStartWork { get; set; }
-    public int Profession { get; set; }
+    public Guid Profession { get; set; }
     public string? Avatar { get; set; }
 
     public void Mapping(Profile profile)

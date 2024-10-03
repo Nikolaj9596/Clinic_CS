@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Clinic.Models;
 using AutoMapper;
-using Clinic.Models.Mappings.DTO;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Authorization;
+using Clinic.Models;
+using Clinic.Models.Mappings.DTO.CategoryDiseaseDto;
 
 namespace Clinic.Controllers
 {
@@ -29,7 +29,7 @@ namespace Clinic.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Results<NotFound, Ok<GetCategoryDiseaseDto>>> Show(int id, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, Ok<GetCategoryDiseaseDto>>> Show(Guid id, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.CategoryDiseases.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();

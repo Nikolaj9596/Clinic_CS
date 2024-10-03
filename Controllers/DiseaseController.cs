@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Clinic.Models;
 using AutoMapper;
-using Clinic.Models.Mappings.DTO;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Authorization;
+using Clinic.Models.Mappings.DTO.DiseaseDto;
+using Clinic.Models;
 
 namespace Clinic.Controllers
 {
@@ -29,7 +29,7 @@ namespace Clinic.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Results<NotFound, Ok<GetDiseaseDto>>> Show(int id, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, Ok<GetDiseaseDto>>> Show(Guid id, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Diseases.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();
@@ -49,7 +49,7 @@ namespace Clinic.Controllers
             return StatusCode(201);
         }
         [HttpPut("{id}")]
-        public async Task<Results<NotFound, Ok<GetDiseaseDto>>> Update(int id, [FromBody] UpdateDiseaseDto disease, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, Ok<GetDiseaseDto>>> Update(Guid id, [FromBody] UpdateDiseaseDto disease, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Diseases.FirstOrDefaultAsync(c => c.Id == id);
             if (entity == null)
@@ -63,7 +63,7 @@ namespace Clinic.Controllers
             return TypedResults.Ok(_mapper.Map<GetDiseaseDto>(entity));
         }
         [HttpDelete("{id}")]
-        public async Task<Results<NotFound, NoContent>> Delete(int id, CancellationToken cancellationToken)
+        public async Task<Results<NotFound, NoContent>> Delete(Guid id, CancellationToken cancellationToken)
         {
             var entity = await _dbContext.Diseases.FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
             if (entity == null) return TypedResults.NotFound();

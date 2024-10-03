@@ -5,7 +5,7 @@ namespace Clinic.Models
     public class Doctor
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
@@ -14,7 +14,7 @@ namespace Clinic.Models
         public DateTime DateStartWork { get; set; }
         public DateTime Created { get; set; }
 
-        public int ProfessionId { get; set; }
+        public Guid ProfessionId { get; set; }
         public virtual Profession Profession { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }

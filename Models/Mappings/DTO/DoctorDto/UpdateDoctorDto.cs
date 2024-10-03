@@ -7,6 +7,6 @@ public class UpdateDoctorDto
   public string MiddleName { get; set; }
   public DateTime DateBirthday { get; set; }
   public DateTime DateStartWork { get; set; }
-  public int ProfessionId { get; set; }
+  public Guid ProfessionId { get; set; }
   public string? Avatar { get; set; }
 }

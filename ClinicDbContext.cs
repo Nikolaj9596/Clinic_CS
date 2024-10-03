@@ -27,10 +27,12 @@ public class ClinicDbContext : DbContext
   public DbSet<Diagnosis> Diagnosis { get; set; }
   public DbSet<Appointment> Appointments{ get; set; }
   public DbSet<CategoryDisease> CategoryDiseases { get; set; }
+  public DbSet<Role> Roles { get; set; }
 
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    modelBuilder.Entity<User>().HasOne(p => p.Role).WithMany(t => t.Users).HasForeignKey(t => t.RoleId);
     modelBuilder.Entity<Profession>().HasMany(t => t.Doctors).WithOne(t => t.Profession).HasForeignKey(t => t.ProfessionId);
     modelBuilder.Entity<Disease>().HasOne(p => p.CategoryDisease).WithMany(t => t.Diseases).HasForeignKey(t => t.CategoryDiseaseId);
     modelBuilder.Entity<Disease>().HasMany(p => p.Diagnosis).WithMany(t => t.Diseases);

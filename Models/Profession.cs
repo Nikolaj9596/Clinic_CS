@@ -5,7 +5,7 @@ namespace Clinic.Models
     public class Profession 
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<Doctor> Doctors { get; set; }
